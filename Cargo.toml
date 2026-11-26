@@ -1,0 +1,25 @@
+[package]
+name = "hop"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+description = "Trusted device network (hopnet) across LAN, Tailscale, ZeroTier, and custom VPNs: multi-hop SSH, tunnels, and automatic dev-server access"
+repository = "https://github.com/ethvor/hop"
+readme = "README.md"
+keywords = ["ssh", "tailscale", "networking", "tunnel", "cli"]
+categories = ["command-line-utilities", "network-programming"]
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+dirs = "6"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true

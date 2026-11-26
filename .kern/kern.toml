@@ -1,0 +1,6 @@
+project = "hop"
+harness_files = [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+]
