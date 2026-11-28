@@ -9,7 +9,7 @@
 ## Why hop?
 
 - **One network across every transport:** List each machine's LAN, Tailscale, ZeroTier, WireGuard, or Cloudflare SSH tunnel addresses in `devices.toml`. `hop` probes them and picks the fastest working route, falling back through 2- or 3-hop relays when direct paths fail.
-- **Dev servers reachable from your devices only:** Run `hop open <server>` from any computer to find where a dev server is running and tunnel straight to it. For phones and browsers, `hop serve` exposes running servers privately over Tailscale HTTPS, a direct VPN/LAN allowlist, or a Cloudflare Tunnel ingress, never publicly.
+- **Dev servers reachable from your devices only:** Run `hop open <server>` from any computer to find where a dev server is running and tunnel straight to it. For phones and browsers, `hop serve` exposes running servers over Tailscale HTTPS, a direct VPN/LAN allowlist, or a Cloudflare Tunnel ingress, restricted to your trusted devices.
 - **Safe one-way relays:** Mark helper machines `relay = true` and `trusted = false` so you can jump through them when direct routes drop without letting them reach your servers.
 
 ---
@@ -68,7 +68,7 @@ relay = true
 trusted = false
 ```
 
-Non-project fleet servers live in `~/.config/hop/servers.toml` (`hop serve add` / `rm`). If you use Tailscale with shared or relay-only nodes, lock down inbound access in your Tailscale ACLs: `hop serve` checks your active Tailscale access rules before exposing anything and refuses to serve if any untrusted device could reach it.
+Non-project fleet servers live in `~/.config/hop/servers.toml` (`hop serve add` / `rm`). Optional `server_sources` (such as [kern](https://github.com/ethvor/kern)) and `[status_sources]` (such as [caf](https://github.com/ethvor/caf)) accept any command that emits JSON. If you use Tailscale with shared or relay-only nodes, lock down inbound access in your Tailscale ACLs: `hop serve` checks your active Tailscale access rules before exposing anything and refuses to serve if any untrusted device could reach it.
 
 ### Commands
 
@@ -107,7 +107,7 @@ Paste this prompt into any coding agent to handle installation and initial setup
 ```text
 Set up hop (https://github.com/ethvor/hop) on this machine:
 1. Check that Rust 1.88+ (cargo) is installed.
-2. Clone https://github.com/ethvor/hop.git and install the release binary using ./scripts/install.sh (macOS/Linux), .\scripts\install.ps1 (Windows PowerShell), or `cargo install --path hop`.
+2. Install the release binary using `cargo install --git https://github.com/ethvor/hop.git`, or clone https://github.com/ethvor/hop.git and run ./scripts/install.sh (macOS/Linux) or .\scripts\install.ps1 (Windows PowerShell).
 3. Ask me for my device aliases, hostnames/IPs (LAN, Tailscale, ZeroTier, or custom VPN), SSH users, relay nodes, trusted peers, and any server registries (such as `kern servers --all --json`), then create `~/.config/hop/devices.toml` (and optionally `~/.config/hop/servers.toml`).
 4. Ask whether I want running declared servers auto-synced to my hopnet via `hop serve daemon install`.
 5. Verify everything with `hop --version`, `hop probe`, `hop net`, and `hop serve`.
@@ -135,8 +135,7 @@ cd hop
 **Any OS (Cargo):**
 
 ```bash
-git clone https://github.com/ethvor/hop.git
-cargo install --path hop
+cargo install --git https://github.com/ethvor/hop.git
 ```
 
 #### 2. Configure your hopnet and verify

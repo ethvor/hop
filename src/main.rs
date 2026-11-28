@@ -106,7 +106,7 @@ enum Commands {
         #[arg(long)]
         direct: bool,
     },
-    /// Inspect, expose, sync, and watch hopnet dev servers across Tailscale and direct VPN/ZeroTier/LAN transports
+    /// Inspect, expose, sync, and watch hopnet dev servers across Tailscale, Cloudflare ingress, and direct VPN/ZeroTier/LAN transports
     Serve {
         /// Also query awake trusted peer devices in parallel
         #[arg(long)]
@@ -181,7 +181,7 @@ enum ServeAction {
         #[arg(long)]
         allow_untrusted: bool,
     },
-    /// Continuously keep running declared servers available across Tailscale and/or direct allowlisted VPN/ZeroTier/LAN IPs
+    /// Continuously expose running declared servers across Tailscale, Cloudflare ingress, and/or direct allowlisted VPN/ZeroTier/LAN IPs and push heartbeats
     Watch {
         /// Poll interval in seconds (overrides `[hopnet] poll_secs`, clamped 2..=60)
         #[arg(long)]
